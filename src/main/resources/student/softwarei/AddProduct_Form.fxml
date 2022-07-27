@@ -2,41 +2,46 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="744.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddPart_Controller">
    <children>
       <Pane layoutX="40.0" layoutY="47.0" prefHeight="675.0" prefWidth="1117.0">
          <children>
-            <Label layoutX="62.0" layoutY="52.0" text="Add Product" />
-            <Label layoutX="62.0" layoutY="133.0" text="ID" />
-            <Label layoutX="62.0" layoutY="182.0" text="Name" />
-            <Label layoutX="62.0" layoutY="231.0" text="Inv" />
-            <Label layoutX="62.0" layoutY="278.0" text="Price" />
-            <Label layoutX="62.0" layoutY="328.0" text="Max" />
-            <TextField layoutX="112.0" layoutY="129.0" />
-            <TextField layoutX="112.0" layoutY="178.0" />
-            <TextField layoutX="112.0" layoutY="227.0" />
-            <TextField layoutX="112.0" layoutY="274.0" />
-            <TextField layoutX="112.0" layoutY="324.0" />
-            <TextField layoutX="888.0" layoutY="41.0" />
-            <Label layoutX="291.0" layoutY="328.0" text="Min" />
-            <TextField layoutX="334.0" layoutY="325.0" />
-            <TableView layoutX="639.0" layoutY="74.0" prefHeight="226.0" prefWidth="438.0">
+            <Label fx:id="addProduct_AddProduct_Label" layoutX="62.0" layoutY="52.0" text="Add model.Product">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="addProduct_ID_Label" layoutX="62.0" layoutY="133.0" text="ID" />
+            <Label fx:id="addProduct_Name_Label" layoutX="62.0" layoutY="182.0" text="Name" />
+            <Label fx:id="addProduct_Inv_Label" layoutX="62.0" layoutY="231.0" text="Inv" />
+            <Label fx:id="addProduct_Price_Label" layoutX="62.0" layoutY="278.0" text="Price" />
+            <Label fx:id="addProduct_Max_Label" layoutX="62.0" layoutY="328.0" text="Max" />
+            <TextField fx:id="addProduct_ID_TextField" editable="false" layoutX="112.0" layoutY="129.0" promptText="Auto Gen - Disabled" />
+            <TextField fx:id="addProduct_Name_TextField" layoutX="112.0" layoutY="178.0" />
+            <TextField fx:id="addProduct_Inv_TextField" layoutX="112.0" layoutY="227.0" />
+            <TextField fx:id="addProduct_Price_TextField" layoutX="112.0" layoutY="274.0" />
+            <TextField fx:id="addProduct_Max_TextField" layoutX="112.0" layoutY="324.0" />
+            <TextField fx:id="addProduct_Search_TextField" layoutX="888.0" layoutY="41.0" promptText="Search by model.Part ID or Name" />
+            <Label fx:id="addProduct_Min_Label" layoutX="291.0" layoutY="328.0" text="Min" />
+            <TextField fx:id="addProduct_Min_TextField" layoutX="334.0" layoutY="325.0" />
+            <TableView fx:id="addProduct_CurrentProducts_TableView" layoutX="639.0" layoutY="74.0" prefHeight="226.0" prefWidth="438.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="C1" />
                 <TableColumn prefWidth="75.0" text="C2" />
               </columns>
             </TableView>
-            <Button layoutX="985.0" layoutY="307.0" mnemonicParsing="false" text="Add" />
-            <TableView layoutX="639.0" layoutY="343.0" prefHeight="226.0" prefWidth="438.0">
+            <Button fx:id="addProduct_CurrentProducts_AddButton" layoutX="985.0" layoutY="307.0" mnemonicParsing="false" text="Add" />
+            <TableView fx:id="addProduct_AssociatedProducts_TableView" layoutX="639.0" layoutY="343.0" prefHeight="226.0" prefWidth="438.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="C1" />
                 <TableColumn prefWidth="75.0" text="C2" />
               </columns>
             </TableView>
-            <Button layoutX="901.0" layoutY="591.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Remove Assoicated Part" />
-            <Button layoutX="875.0" layoutY="633.0" mnemonicParsing="false" text="Save" />
-            <Button layoutX="985.0" layoutY="633.0" mnemonicParsing="false" text="Cancel" />
+            <Button fx:id="addProduct_AssociatedProducts_RemoveButton" layoutX="901.0" layoutY="591.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Remove Associated model.Part" />
+            <Button fx:id="addProduct_SaveButton" layoutX="901.0" layoutY="633.0" mnemonicParsing="false" text="Save" />
+            <Button fx:id="addProduct_CancelButton" layoutX="997.0" layoutY="633.0" mnemonicParsing="false" text="Cancel" />
          </children>
       </Pane>
    </children>
