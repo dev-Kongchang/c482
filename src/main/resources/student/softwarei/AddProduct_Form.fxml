@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="744.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddPart_Controller">
+<AnchorPane prefHeight="744.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddProduct_Controller">
    <children>
       <Pane layoutX="40.0" layoutY="47.0" prefHeight="675.0" prefWidth="1117.0">
          <children>
-            <Label fx:id="addProduct_AddProduct_Label" layoutX="62.0" layoutY="52.0" text="Add model.Product">
+            <Label fx:id="addProduct_AddProduct_Label" layoutX="62.0" layoutY="52.0" text="Add Product">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -28,15 +28,19 @@
             <TextField fx:id="addProduct_Min_TextField" layoutX="334.0" layoutY="325.0" />
             <TableView fx:id="addProduct_CurrentProducts_TableView" layoutX="639.0" layoutY="74.0" prefHeight="226.0" prefWidth="438.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="addProduct_TopTableViewColumn_ID" prefWidth="96.333251953125" text="Product ID" />
+                <TableColumn fx:id="addProduct_TopTableViewColumn_Name" prefWidth="98.0" text="Product Name" />
+                <TableColumn fx:id="addProduct_TopTableViewColumn_Inventory" prefWidth="94.0" text="Inventory Level" />
+                <TableColumn fx:id="addProduct_TopTableViewColumn_PriceCost" prefWidth="149.6666259765625" text="Price/Cost per Unit" />
               </columns>
             </TableView>
             <Button fx:id="addProduct_CurrentProducts_AddButton" layoutX="985.0" layoutY="307.0" mnemonicParsing="false" text="Add" />
             <TableView fx:id="addProduct_AssociatedProducts_TableView" layoutX="639.0" layoutY="343.0" prefHeight="226.0" prefWidth="438.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                  <TableColumn fx:id="addProduct_AssociatedTableViewColumn_ID" prefWidth="75.0" text="Product ID" />
+                  <TableColumn fx:id="addProduct_AssociatedTableViewColumn_Name" prefWidth="99.3333740234375" text="Product Name" />
+                  <TableColumn fx:id="addProduct_AssociatedTableViewColumn_Inventory" prefWidth="102.0" text="Inventory Level" />
+                  <TableColumn fx:id="addProduct_AssociatedTableViewColumn_PriceCost" prefWidth="160.6666259765625" text="Price/Cost per Unit" />
               </columns>
             </TableView>
             <Button fx:id="addProduct_AssociatedProducts_RemoveButton" layoutX="901.0" layoutY="591.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Remove Associated model.Part" />

@@ -1,6 +1,4 @@
-package model; /**
-* Supplied class model.Part.java
- */
+package model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +7,7 @@ import javafx.collections.ObservableList;
  *
  * Author = Kong Chang
  */
-public abstract class Product {
+public class Product {
     // make ObservableList object as an arraylist to hold all associated parts for the product
 
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
@@ -112,24 +110,23 @@ public abstract class Product {
         this.max = max;
     }
 
+    /**
+     *  This adds part to associatedParts
+     */
     public void addAssociatedPart(Part part){
-        if (associatedParts.contains(part) == true){ // We need to check if part already exist
-
-        }else{
-            ;
-        }
+        associatedParts.add(part);
     }
 
+    /**
+     *  The selected part is removed from associatedParts
+     */
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){
-        if (associatedParts.contains(selectedAssociatedPart) == true){ // We need to check if part already exist
-            // if part does exist then we can go ahead and delete it
-            return associatedParts.remove(selectedAssociatedPart);
-        }else{
-            // otherwise we return false because the part does not exist
-            return false;
-        }
+        return associatedParts.remove(selectedAssociatedPart);
     }
 
+    /**
+     *  Returns an observable list of associatedParts
+     */
     public ObservableList<Part> getAllAssociatedParts() {
         return associatedParts;
     }
