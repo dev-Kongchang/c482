@@ -23,42 +23,51 @@ import java.util.ResourceBundle;
 
 public class Main_Controller implements Initializable {
 
-
-
+    // This the tableview for parts section
     @FXML
     private TableView<Part> parts_TableView;
 
+    // This is the id tableColumn for the parts section
     @FXML
     private TableColumn<Part, Integer> Parts_TableViewColumn_ID;
 
+    // This is the Part name tableColumn for the parts section
     @FXML
     private TableColumn<Part, String> Parts_TableViewColumn_PartName;
 
+    // This is the Inventory tableColumn for the parts section
     @FXML
     private TableColumn<Part, Integer> Parts_TableViewColumn_Inventory;
 
+    // This is the Price/Cost tableColumn for the parts section
     @FXML
     private TableColumn<Part, Double> Parts_TableViewColumn_PriceCost;
 
-
+    // This is the Products tableview for the products section
     @FXML
     private TableView<Product> products_TableView;
 
+    // This is the ID TableColumn for the Products section
     @FXML
     private TableColumn<Product, Integer> Products_TableViewColumn_ID;
 
+    // This is the Product Name TableColumn for the Products section
     @FXML
     private TableColumn<Product, String> Products_TableViewColumn_Name;
 
+    // This is the Inventory TableColumn for the Products section
     @FXML
     private TableColumn<Product, Integer> Products_TableViewColumn_Inventory;
 
+    // This is the Price/Cost TableColumn for the Products section
     @FXML
     private TableColumn<Product, Double> Products_TableViewColumn_PriceCost;
 
+    // This is the Search field for the parts section
     @FXML
     private TextField parts_Search_field;
 
+    // This is the Search field for the products section
     @FXML
     private TextField product_Search_field;
 
@@ -180,6 +189,14 @@ public class Main_Controller implements Initializable {
      */
     public void products_Modify_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("Products Add Button Clicked!");
+        Product selectedProduct = products_TableView.getSelectionModel().getSelectedItem();
+        if(selectedProduct == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("You did not select a part, Please Try again");
+            System.out.println("User did not select a part to modify!");
+            alert.show();
+        }
 
         FXMLLoader loader = new FXMLLoader(main.class.getResource("ModifyProduct_Form.fxml"));
         Parent root = loader.load();

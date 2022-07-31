@@ -26,24 +26,24 @@
                 <TextField fx:id="modifyProduct_Search_TextField" layoutX="888.0" layoutY="41.0" promptText="Search by model.Part ID or Name" />
                 <Label fx:id="modifyProduct_Min_Label" layoutX="291.0" layoutY="328.0" text="Min" />
                 <TextField fx:id="modifyProduct_Min_TextField" layoutX="334.0" layoutY="325.0" />
-                <TableView fx:id="modifyProduct_CurrentProducts_TableView" layoutX="639.0" layoutY="74.0" prefHeight="226.0" prefWidth="438.0">
+                <TableView fx:id="modifyProduct_AllParts_TableView" layoutX="639.0" layoutY="74.0" prefHeight="226.0" prefWidth="438.0">
                     <columns>
-                        <TableColumn fx:id="modifyProduct_TopTableViewColumn_ID" prefWidth="75.0" text="Product ID" />
-                        <TableColumn fx:id="modifyProduct_TopTableViewColumn_Name" prefWidth="99.3333740234375" text="Product Name" />
-                        <TableColumn fx:id="modifyProduct_TopTableViewColumn_Inventory" prefWidth="102.0" text="Inventory Level" />
-                        <TableColumn fx:id="modifyProduct_TopTableViewColumn_PriceCost" prefWidth="160.6666259765625" text="Price/Cost per Unit" />
+                        <TableColumn fx:id="modifyProduct_AllPartsColumn_ID" prefWidth="75.0" text="Product ID" />
+                        <TableColumn fx:id="modifyProduct_AllPartsColumn_Name" prefWidth="99.3333740234375" text="Product Name" />
+                        <TableColumn fx:id="modifyProduct_AllPartsColumn_Inventory" prefWidth="102.0" text="Inventory Level" />
+                        <TableColumn fx:id="modifyProduct_AllPartsColumn_PriceCost" prefWidth="160.6666259765625" text="Price/Cost per Unit" />
                     </columns>
                 </TableView>
-                <Button fx:id="modifyProduct_CurrentProducts_AddButton" layoutX="985.0" layoutY="307.0" mnemonicParsing="false" onAction="#modifyProduct_" text="Add" />
-                <TableView fx:id="modifyProduct_AssociatedProducts_TableView" layoutX="639.0" layoutY="343.0" prefHeight="226.0" prefWidth="438.0">
+                <Button fx:id="modifyProduct_AllParts_AddButton" layoutX="985.0" layoutY="307.0" mnemonicParsing="false" onAction="#modifyProduct_" text="Add" />
+                <TableView fx:id="modifyProduct_AssociatedParts_TableView" layoutX="639.0" layoutY="343.0" prefHeight="226.0" prefWidth="438.0">
                     <columns>
-                        <TableColumn fx:id="modifyProducts_AssociatedTableView_ID" prefWidth="75.0" text="Product ID" />
-                        <TableColumn fx:id="modifyProducts_AssociatedTableView_Name" prefWidth="99.3333740234375" text="Product Name" />
-                        <TableColumn fx:id="modifyProducts_AssociatedTableView_Inventory" prefWidth="102.0" text="Inventory Level" />
-                        <TableColumn fx:id="modifyProducts_AssociatedTableView_PriceCost" prefWidth="160.6666259765625" text="Price/Cost per Unit" />
+                        <TableColumn fx:id="modifyProducts_Associated_ID" prefWidth="75.0" text="Product ID" />
+                        <TableColumn fx:id="modifyProducts_Associated_Name" prefWidth="99.3333740234375" text="Product Name" />
+                        <TableColumn fx:id="modifyProducts_Associated_Inventory" prefWidth="102.0" text="Inventory Level" />
+                        <TableColumn fx:id="modifyProducts_Associated_PriceCost" prefWidth="160.6666259765625" text="Price/Cost per Unit" />
                     </columns>
                 </TableView>
-                <Button fx:id="modifyProduct_AssociatedProducts_RemoveButton" layoutX="901.0" layoutY="591.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Remove Associated model.Part" />
+                <Button fx:id="modifyProduct_AssociatedParts_RemoveButton" layoutX="901.0" layoutY="591.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Remove Associated Part" />
                 <Button fx:id="modifyProduct_SaveButton" layoutX="901.0" layoutY="633.0" mnemonicParsing="false" onAction="#modifyProduct_Save_Button_Clicked" text="Save" />
                 <Button fx:id="modifyProduct_CancelButton" layoutX="997.0" layoutY="633.0" mnemonicParsing="false" onAction="#modifyProduct_Cancel_Button_Clicked" text="Cancel" />
             </children>
