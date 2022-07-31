@@ -11,6 +11,11 @@ import student.softwarei.main;
 import java.io.IOException;
 
 public class ModifyPart_Controller {
+
+    /**
+     *  When the cancel button is clicked, we will return to the main form,
+     *  with the main form also initializing
+     */
     public void modifyPart_Cancel_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("ModifyPart Cancel Button Clicked!");
 

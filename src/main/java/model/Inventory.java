@@ -168,14 +168,14 @@ public class Inventory {
     /**
      *  this
      */
-    public static int getNextPartID(){
+    public int getNextPartID(){
         return partID++;
     }
 
     /**
      *
      */
-    public static int getNextProductID(){
+    public int getNextProductID(){
         return productID++;
     }
 

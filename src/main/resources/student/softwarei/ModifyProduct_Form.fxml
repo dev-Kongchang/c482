@@ -34,7 +34,7 @@
                         <TableColumn fx:id="modifyProduct_TopTableViewColumn_PriceCost" prefWidth="160.6666259765625" text="Price/Cost per Unit" />
                     </columns>
                 </TableView>
-                <Button fx:id="modifyProduct_CurrentProducts_AddButton" layoutX="985.0" layoutY="307.0" mnemonicParsing="false" text="Add" />
+                <Button fx:id="modifyProduct_CurrentProducts_AddButton" layoutX="985.0" layoutY="307.0" mnemonicParsing="false" onAction="#modifyProduct_" text="Add" />
                 <TableView fx:id="modifyProduct_AssociatedProducts_TableView" layoutX="639.0" layoutY="343.0" prefHeight="226.0" prefWidth="438.0">
                     <columns>
                         <TableColumn fx:id="modifyProducts_AssociatedTableView_ID" prefWidth="75.0" text="Product ID" />
@@ -44,8 +44,8 @@
                     </columns>
                 </TableView>
                 <Button fx:id="modifyProduct_AssociatedProducts_RemoveButton" layoutX="901.0" layoutY="591.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Remove Associated model.Part" />
-                <Button fx:id="modifyProduct_SaveButton" layoutX="901.0" layoutY="633.0" mnemonicParsing="false" text="Save" />
-                <Button fx:id="modifyProduct_CancelButton" layoutX="997.0" layoutY="633.0" mnemonicParsing="false" text="Cancel" />
+                <Button fx:id="modifyProduct_SaveButton" layoutX="901.0" layoutY="633.0" mnemonicParsing="false" onAction="#modifyProduct_Save_Button_Clicked" text="Save" />
+                <Button fx:id="modifyProduct_CancelButton" layoutX="997.0" layoutY="633.0" mnemonicParsing="false" onAction="#modifyProduct_Cancel_Button_Clicked" text="Cancel" />
             </children>
         </Pane>
     </children>
