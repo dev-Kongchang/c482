@@ -4,6 +4,8 @@ module student.softwarei {
 
 
     opens student.softwarei to javafx.fxml;
+    opens model to javafx.fxml;
+    exports model;
 
     exports student.softwarei;
 

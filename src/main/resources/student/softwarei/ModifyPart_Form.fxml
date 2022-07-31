@@ -18,8 +18,8 @@
         <Label fx:id="modifyPart_Max_Label" layoutX="38.0" layoutY="330.0" text="Max" />
         <Label fx:id="modifyPart_MachineID_Label" layoutX="38.0" layoutY="378.0" text="Machine ID" />
         <Label fx:id="modifyPart_Min_Label" layoutX="322.0" layoutY="330.0" text="Min" />
-        <RadioButton fx:id="modifyPart_InHouse_Radio" layoutX="147.0" layoutY="57.0" mnemonicParsing="false" selected="true" text="In-House" />
-        <RadioButton fx:id="modifyPart_Outsourced_Radio" layoutX="287.0" layoutY="57.0" mnemonicParsing="false" text="Outsourced" />
+        <RadioButton fx:id="modifyPart_InHouse_Radio" layoutX="147.0" layoutY="57.0" mnemonicParsing="false" onAction="#InHouse_RadioButton_Clicked" selected="true" text="In-House" />
+        <RadioButton fx:id="modifyPart_Outsourced_Radio" layoutX="287.0" layoutY="57.0" mnemonicParsing="false" onAction="#Outsource_RadioButton_Clicked" text="Outsourced" />
         <TextField fx:id="modifyPart_ID_TextField" editable="false" layoutX="153.0" layoutY="117.0" promptText="Auto Gen - Disabled" />
         <TextField fx:id="modifyPart_Name_TextField" layoutX="153.0" layoutY="168.0" />
         <TextField fx:id="modifyPart_Inv_TextField" layoutX="153.0" layoutY="223.0" />

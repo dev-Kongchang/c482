@@ -65,10 +65,14 @@ public class AddPart_Controller implements Initializable {
     @FXML
     private TextField addPart_Max_TextField ;
 
-    // This is the Machine ID textfield on the form
+    // This is the Machine ID Label on the form
 
     @FXML
     private Label addPart_MachineID_Label ;
+
+    // This is the Machine ID TextField on the form
+    @FXML
+    private TextField addPart_MachineID_TextField;
 
     // This is the Min textfield on the form
     @FXML
@@ -81,24 +85,22 @@ public class AddPart_Controller implements Initializable {
 
     }
 
-
-
     /**
      *  This module here is the save button functionality.
      *  We'll first lay out the module in the following steps.
      *  1.) Use the try/except handle exceptions
      *      This method will allow catching issues, in this case
      *      keeping the text field free from bad inputs
-     *  2.) We'll check the text from each textfield the user inputted from the functions
-     *      at the end of the code section.
-     *  3.) We'll also check for blanks, if any, will present error messages
-     *  4.) We must know which radio button was selected, so we can
-     *      update the textfield information.
+     *  2.) We'll check the text from each textfield the user inputted
+     *  3.) We must know which radio button was selected, so we can
+     *      add the update the corresponding objects
+     *  4.) Add the object into the Inventory
      */
     public void addPart_Save_Button_Clicked(ActionEvent actionEvent) throws IOException {
 
+        addPart_ID_TextField.setDisable(true);
         try{
-
+            if(check_for_error() == true){return;}
 
 
             String Name = addPart_Name_TextField.getText();
@@ -107,17 +109,16 @@ public class AddPart_Controller implements Initializable {
             int min = checkMin(addPart_Min_TextField.getText());
             int max = checkMax(addPart_Max_TextField.getText());
 
-            Inventory inventory = new Inventory();
+
             if(addPart_InHouse_Radio.isSelected()){
-                int id = checkMachineID(addPart_MachineID_Label.getText());
-                int newNum = inventory.getNextPartID();
-                InHouse inHouse = new InHouse(newNum, Name, price, inv, min, max, id);
-                inventory.addPart(inHouse);
+                int newNum = get_next_id();
+                InHouse inHouse = new InHouse(newNum, Name, price, inv, min, max, newNum);
+                Inventory.addPart(inHouse);
             }else {
                 String company = checkCompanyName(addPart_MachineID_Label.getText());
-                int newNum = inventory.getNextPartID();
+                int newNum = get_next_id();
                 Outsourced outsourced = new Outsourced(newNum, Name, price, inv, min, max, company);
-                inventory.addPart(outsourced);
+                Inventory.addPart(outsourced);
             }
 
             System.out.println("AddParts Save Button Clicked!");
@@ -157,7 +158,40 @@ public class AddPart_Controller implements Initializable {
 
     }
 
+    /**
+     * Checks for error within logical requirements of each textfield,
+     * if any, generates a combined message to the user about the error
+     *   Logical RunTime: Was error.concat(message).
+     *          The error message string was empty every time.
+     *          fix: decided to use variable addition to add on the
+     *          string. (error = error + errorMessage)
+     */
+    public boolean check_for_error(){
+        String error = "";
+        String name = addPart_Name_TextField.getText();
+        int max = Integer.parseInt(addPart_Max_TextField.getText());
+        int min = Integer.parseInt(addPart_Min_TextField.getText());
+        double price = Double.parseDouble(addPart_PriceCost_TextField.getText());
+        int inv = Integer.parseInt(addPart_Inv_TextField.getText());
 
+        if (inv > max){error = error + " The Inventory is more than the max capacity!\n";}
+        if (inv < min){error = error + " The Inventory is less than the min capacity!\n";}
+        if (inv <= 0 ){error = error + " The Inventory cannot be below 0! \n";}
+        if (min > max){error = error + " The Min must be lower than the Max\n";}
+        if (max < min){error = error + " The Max must be more than the Min\n";}
+        if (name.isBlank()) {error = error + " The Name cannot be empty!!! \n";}
+
+        if(!error.isBlank()) {
+            System.out.println("Modify Parts: User inputted Mistake on the text field");
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(error);
+            alert.show();
+            return true;
+        }
+        return false;
+    }
 
     /**
      *  To check if the MachineID is in format, we'll have a function that we call
@@ -232,8 +266,11 @@ public class AddPart_Controller implements Initializable {
         }
     }
 
-
-
+    /**
+     *  When the radio button is selected:
+     *  boolean variable is updated
+     *  sets true/false for both radiobuttons
+     */
     public void Outsource_RadioButton_Clicked(ActionEvent actionEvent) {
         is_InHouse_Selected = false;
         addPart_InHouse_Radio.setSelected(false);
@@ -241,10 +278,27 @@ public class AddPart_Controller implements Initializable {
         addPart_MachineID_Label.setText("Company Name");
     }
 
+    /**
+     *  When the radio button is selected:
+     *  boolean variable is updated
+     *  sets true/false for both radiobuttons
+     */
     public void InHouse_RadioButton_Clicked(ActionEvent actionEvent) {
         is_InHouse_Selected = true;
         addPart_InHouse_Radio.setSelected(true);
         addPart_Outsourced_Radio.setSelected(false);
         addPart_MachineID_Label.setText("Machine ID");
+    }
+
+    /**
+     *  We can simply check the size of the total parts within the Inventory
+     *  Return the id when finished. if none, id will default to 1.
+     */
+    public int get_next_id(){
+        int id = 1;
+        for(int i = 0; i < Inventory.getAllParts().size(); i++){
+            id ++;
+        }
+        return id;
     }
 }

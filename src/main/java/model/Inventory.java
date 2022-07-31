@@ -13,30 +13,23 @@ import javafx.collections.ObservableList;
 
 public class Inventory {
 
-    // Declaring PartID
-    private static int partID = 1;
-
-    //Declaring ProductID
-    private static int productID = 1;
-
     // allParts is created as ObservableList with Part Object. Then into a collection/arraylist
-    private ObservableList<Part> allParts = FXCollections.observableArrayList();
-
+    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
 
     // allProducts is created as ObservableList with Product Object. Then into a collection/arraylist
-    private ObservableList<Product> allProducts = FXCollections.observableArrayList();
+    private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     /**
      *  adds the newPart into the allParts List
      */
-    public void addPart(Part newPart){
+    public static void addPart(Part newPart){
         allParts.add(newPart);
     }
 
     /**
      * adds the newProduct into the allProduct List
      */
-    public void addProduct (Product newProduct){
+    public static void addProduct (Product newProduct){
         allProducts.add(newProduct);
     }
 
@@ -45,7 +38,7 @@ public class Inventory {
      *  until the part is found, if part is found, we return it
      *  if not, it will get back a null value
      */
-    public Part lookupPart (int partId){
+    public static Part lookupPart (int partId){
         // run for loop to check each part in allParts
         for (Part part : allParts){
             if(part.getId() == partId){
@@ -63,7 +56,7 @@ public class Inventory {
      *  until product is found, if product is found, we return it,
      *  if not, it will return null.
      */
-    public Product lookupProduct (int productId){
+    public static Product lookupProduct (int productId){
         // Check each product in allProduct
         for (Product product : allProducts){
             if(product.getId() == productId){
@@ -80,7 +73,7 @@ public class Inventory {
      *  are returning. Next, we loop through the allParts list to see if
      *  the part exists, if so, return the desired part, if not, null will be returned
      */
-    public ObservableList<Part> lookupPart (String partName){
+    public static ObservableList<Part> lookupPart (String partName){
         // we need to local variable to acts as ObservableList<Part> to return
         ObservableList<Part> newList = FXCollections.observableArrayList();
         // loop through for the desired part
@@ -101,7 +94,7 @@ public class Inventory {
      *  are returning. Next, we loop through the allProduct list to see if
      *  the product exists, if so, return the desired product, if not, null will be returned
      */
-    public ObservableList<Product> lookupProduct (String productName){
+    public static ObservableList<Product> lookupProduct (String productName){
         // local variable holder
         ObservableList<Product> newlist = FXCollections.observableArrayList();
         // Loop through for the desired product
@@ -120,35 +113,35 @@ public class Inventory {
     /**
      *  Sets the selected part with index
      */
-    public void updatePart (int index, Part selectedPart){
+    public static void updatePart (int index, Part selectedPart){
         allParts.set(index, selectedPart);
     }
 
     /**
      *  updates Product with index and newProduct
      */
-    public void updateProduct (int index, Product newProduct){
+    public static void updateProduct (int index, Product newProduct){
         allProducts.set(index, newProduct);
     }
 
     /**
      *  Deletes the selectedPart from allParts section
      */
-    public boolean deletePart (Part selectedPart){
+    public static boolean deletePart (Part selectedPart){
         return allParts.remove(selectedPart);
     }
 
     /**
      *  Deletes the selectedProduct from the allproducts
      */
-    public boolean deleteProduct (Product selectedProduct){
+    public static boolean deleteProduct (Product selectedProduct){
         return allProducts.remove(selectedProduct);
     }
 
     /**
      *  returns allParts as a list
      */
-    public ObservableList<Part> getAllParts (){
+    public static ObservableList<Part> getAllParts (){
         if (allParts.isEmpty()){ // This is to alert the programmer if an error occurs later on
             System.out.println("Inventory: No Parts Available, allParts Object is empty!");
         }
@@ -158,27 +151,12 @@ public class Inventory {
     /**
      *  returns allProducts as a list
      */
-    public ObservableList<Product> getAllProduct (){
+    public static ObservableList<Product> getAllProduct (){
         if (allProducts.isEmpty()){
             System.out.println("Inventory: No Products Available, Object allProducts is Empty!");
         }
         return allProducts;
     }
-
-    /**
-     *  this
-     */
-    public int getNextPartID(){
-        return partID++;
-    }
-
-    /**
-     *
-     */
-    public int getNextProductID(){
-        return productID++;
-    }
-
 
 
 }
