@@ -78,11 +78,11 @@ public class AddPart_Controller implements Initializable {
     @FXML
     private TextField addPart_Min_TextField ;
     /**
-     *  We'll
+     *  We'll set the textfield to be Disabled
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        addPart_ID_TextField.setDisable(true);
     }
 
     /**
@@ -246,9 +246,9 @@ public class AddPart_Controller implements Initializable {
      *  Simply checking if Price/Cost is in number format, if so return the value back
      *  or throw an error
      */
-    public float checkPrice(String what){
+    public double checkPrice(String what){
         try {
-            return Float.parseFloat(what);
+            return Double.parseDouble(what);
         } catch (NumberFormatException n){
             throw new NumberFormatException("Price has to be a Integer that is greater than or equal to 0!");
         }

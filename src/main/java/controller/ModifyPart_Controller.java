@@ -37,10 +37,6 @@ public class ModifyPart_Controller implements Initializable {
     // Initializing button selection'
     private boolean is_InHouse_Selected;
 
-    // This the ID textfield on the form
-    @FXML
-    private TextField getModifyPart_ID_TextField;
-
     // This is the InHouse Radio button on the form
     @FXML
     private RadioButton modifyPart_InHouse_Radio;
@@ -84,15 +80,13 @@ public class ModifyPart_Controller implements Initializable {
     // This is the constructed selectedPart Part Object
     public Part selectedPart;
 
-
     /**
      *  We'll get the selected part that was in the Main menu, then set the information
      *  within the modify form to that selected part
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
+        modifyPart_ID_TextField.setDisable(true);
     }
 
     /**
@@ -130,7 +124,7 @@ public class ModifyPart_Controller implements Initializable {
         modifyPart_PriceCost_TextField.setText(price);
         modifyPart_Max_TextField.setText(max);
         modifyPart_Min_TextField.setText(min);
-
+        modifyPart_ID_TextField.setDisable(true);
     }
 
 
@@ -208,10 +202,7 @@ public class ModifyPart_Controller implements Initializable {
 
         stage.setScene(scene);
         stage.show();
-
     }
-
-
 
     /**
      * Checks for error within logical requirements of each textfield,
@@ -303,9 +294,9 @@ public class ModifyPart_Controller implements Initializable {
      *  Simply checking if Price/Cost is in number format, if so return the value back
      *  or throw an error
      */
-    public float checkPrice(String what){
+    public Double checkPrice(String what){
         try {
-            return Float.parseFloat(what);
+            return Double.parseDouble(what);
         } catch (NumberFormatException n){
             throw new NumberFormatException("Price has to be a Integer that is greater than or equal to 0!");
         }
@@ -346,6 +337,5 @@ public class ModifyPart_Controller implements Initializable {
         modifyPart_Outsourced_Radio.setSelected(false);
         modifyPart_MachineID_Label.setText("Machine ID");
     }
-
 
 }

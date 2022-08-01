@@ -16,7 +16,7 @@
                   <TableColumn fx:id="Parts_TableViewColumn_PriceCost" prefWidth="121.0" text="Price/Cost per Unit" />
               </columns>
             </TableView>
-            <TextField fx:id="parts_Search_field" layoutX="252.0" layoutY="14.0" promptText="Search by model.Part ID or Num" />
+            <TextField fx:id="parts_Search_field" layoutX="252.0" layoutY="14.0" onAction="#parts_Search_Field_onAction" promptText="Search by Part ID or Num" />
             <Label fx:id="parts_Label" layoutX="35.0" layoutY="18.0" text="Parts" />
             <Button fx:id="parts_AddButton" layoutX="219.0" layoutY="293.0" mnemonicParsing="false" onAction="#Parts_Add_Button_Clicked" text="Add" />
             <Button fx:id="parts_ModifyButton" layoutX="273.0" layoutY="293.0" mnemonicParsing="false" onAction="#Parts_Modify_Button_Clicked" text="Modify" />
@@ -33,7 +33,7 @@
                   <TableColumn fx:id="Products_TableViewColumn_PriceCost" prefWidth="120.6666259765625" text="Price/Cost per Unit" />
               </columns>
             </TableView>
-            <TextField fx:id="product_Search_field" layoutX="256.0" layoutY="14.0" promptText="Search by model.Product ID or Num" />
+            <TextField fx:id="product_Search_field" layoutX="256.0" layoutY="14.0" onAction="#products_Search_Field_onAction" promptText="Search by Product ID or Num" />
             <Label fx:id="product_Label" layoutX="22.0" layoutY="18.0" text="Products" />
             <Button fx:id="products_AddButton" layoutX="217.0" layoutY="293.0" mnemonicParsing="false" onAction="#products_Add_Button_Clicked" text="Add" />
             <Button fx:id="products_ModifyButton" layoutX="269.0" layoutY="293.0" mnemonicParsing="false" onAction="#products_Modify_Button_Clicked" text="Modify" />
@@ -44,6 +44,6 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Button fx:id="Main_Form_ExitButton" layoutX="824.0" layoutY="380.0" mnemonicParsing="false" text="Exit" />
+      <Button fx:id="Main_Form_ExitButton" layoutX="824.0" layoutY="380.0" mnemonicParsing="false" onAction="#Main_Form_ExitButton_Clicked" text="Exit" />
    </children>
 </AnchorPane>

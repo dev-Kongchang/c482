@@ -2,6 +2,8 @@ package controller;
 
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import student.softwarei.main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Main_Controller implements Initializable {
@@ -70,9 +73,7 @@ public class Main_Controller implements Initializable {
     // This is the Search field for the products section
     @FXML
     private TextField product_Search_field;
-
-
-
+    
     /**
      *  This function is very important, as everytime the Main Form is called, whether when
      *  we first start the program or when it called again from other forms, all the information
@@ -87,6 +88,10 @@ public class Main_Controller implements Initializable {
 
     }
 
+    /**
+     * This module allows the tables to load properly,
+     * sets the product and parts table accordingly to the Inventory
+     */
     public void initialize_tables(){
 
         parts_TableView.setItems(Inventory.getAllParts());
@@ -101,8 +106,6 @@ public class Main_Controller implements Initializable {
         Products_TableViewColumn_Inventory.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
         Products_TableViewColumn_PriceCost.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
     }
-
-
 
 
     /**
@@ -121,13 +124,6 @@ public class Main_Controller implements Initializable {
         stage.show();
     }
 
-
-    private static Part selected_Part = null;
-
-
-    public static Part get_Parts_SelectedPart(){
-        return selected_Part;
-    }
 
     /**
      *  1.) Before going to the Modify Part Form, we set the current Part within
@@ -165,11 +161,32 @@ public class Main_Controller implements Initializable {
      */
     public void parts_Delete_Button_Clicked(ActionEvent actionEvent) {
         System.out.println("Parts Delete Button Clicked!");
+        Part selectedPart = parts_TableView.getSelectionModel().getSelectedItem();
+        if(selectedPart == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("You did not select a Part, Please Try again");
+            System.out.println("User did not select a Part to Delete!");
+            alert.show();
+        }
+
+        String name = selectedPart.getName();
+        String id = String.valueOf(selectedPart.getId());
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Remove");
+        alert.setContentText("Are you sure you want to delete the following:\nProduct: " + name + "\nID: " + id);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.CANCEL){
+            System.out.println("User clicked Cancel!");
+            return;
+        } else if (result.get() == ButtonType.OK){
+            Inventory.deletePart(selectedPart);
+        }
 
     }
 
     /**
-     *  This section opens up the Add Part Form
+     *  This section opens up the Add Part Form 
      */
     public void products_Add_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("Products Add Button Clicked!");
@@ -185,7 +202,10 @@ public class Main_Controller implements Initializable {
     }
 
     /**
-     *
+     *  When the Product modify button is clicked:
+     *  1.) checks if user selected a product from the product table
+     *  2.) sets the selected product into the product modify form 
+     *  3.) opens the modify product form
      */
     public void products_Modify_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("Products Add Button Clicked!");
@@ -193,13 +213,16 @@ public class Main_Controller implements Initializable {
         if(selectedProduct == null){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setContentText("You did not select a part, Please Try again");
-            System.out.println("User did not select a part to modify!");
+            alert.setContentText("You did not select a Product, Please Try again");
+            System.out.println("User did not select a Product to modify!");
             alert.show();
         }
 
         FXMLLoader loader = new FXMLLoader(main.class.getResource("ModifyProduct_Form.fxml"));
         Parent root = loader.load();
+        ModifyProduct_Controller control = loader.getController();
+        control.setSelectedProduct(selectedProduct);
+
         Stage stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
 
         Scene scene = new Scene(root,  1182, 744);
@@ -214,6 +237,130 @@ public class Main_Controller implements Initializable {
      */
     public void products_Delete_Button_Clicked(ActionEvent actionEvent) {
         System.out.println("Products Add Button Clicked!");
+        Product selectedProduct = products_TableView.getSelectionModel().getSelectedItem();
+        if(selectedProduct == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("You did not select a Product, Please Try again");
+            System.out.println("User did not select a Product to modify!");
+            alert.show();
+        }
 
+        if(selectedProduct.getAllAssociatedParts().size() == 0){
+            String name = selectedProduct.getName();
+            String id = String.valueOf(selectedProduct.getId());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Remove");
+            alert.setContentText("Are you sure you want to delete the following:/nProduct: " + name + "\nID: " + id);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.CANCEL){
+                System.out.println("User clicked Cancel!");
+                return;
+            } else if (result.get() == ButtonType.OK){
+                Inventory.deleteProduct(selectedProduct);
+            }
+
+        } else if (selectedProduct.getAllAssociatedParts().size() > 0){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("This Product has Parts\nIf you want to delete it.\nPlease delete the parts first!");
+            System.out.println("User did not parts to the Product!");
+            alert.show();
+        }
+
+    }
+
+    /**
+     * This checks for user input in the search field and populates the table accordingly
+     * if users inputs integers when we try one, if string, we try the other way
+     * also runs for loop to check each part if they contain the given character or string
+     */
+    @FXML
+    public void parts_Search_Field_onAction(ActionEvent actionEvent) {
+        String userSearch = parts_Search_field.getText();
+        if (!userSearch.isBlank()){
+            try {
+                Part givenpart = Inventory.lookupPart(Integer.parseInt(userSearch));
+                if (givenpart != null) {
+                    parts_TableView.getSelectionModel().select(givenpart);
+                } else if (givenpart == null){
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e){
+                ObservableList<Part> checklist = Inventory.getAllParts();
+                ObservableList<Part> newlist = FXCollections.observableArrayList();
+                Part part;
+                if(checklist.size() > 0){
+                    for (int i = 0; i < checklist.size(); i ++){
+                        part = checklist.get(i);
+                        if (part.getName().toLowerCase().contains(userSearch.toLowerCase())){
+                            newlist.add(part);
+                        }
+                    }
+
+                    if (newlist.size() == 0){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("NOT FOUND!");
+                        alert.setContentText("Item does not exist");
+                        alert.show();
+                    } else {
+                        parts_TableView.setItems(newlist);
+                    }
+                }
+            }
+        } else{
+            parts_TableView.setItems(Inventory.getAllParts());
+        }
+    }
+
+    /**
+     * This checks for user input in the search field and populates the table accordingly
+     * if users inputs integers when we try one, if string, we try the other way
+     * also runs for loop to check each product if they contain the given character or string
+     * Future Enhancement: If this module can be broken down to one function, it would allow for more flexibility
+     */
+    public void products_Search_Field_onAction(ActionEvent actionEvent) {
+        String userSearch = product_Search_field.getText();
+        if (!userSearch.isBlank()){
+            try {
+                Product givenproduct = Inventory.lookupProduct(Integer.parseInt(userSearch));
+                if (givenproduct != null) {
+                    products_TableView.getSelectionModel().select(givenproduct);
+                } else if (givenproduct == null){
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e){
+                ObservableList<Product> checklist = Inventory.getAllProduct();
+                ObservableList<Product> newlist = FXCollections.observableArrayList();
+                Product product;
+                if(checklist.size() > 0){
+                    for (int i = 0; i < checklist.size(); i ++){
+                        product = checklist.get(i);
+                        if (product.getName().toLowerCase().contains(userSearch.toLowerCase())){
+                            newlist.add(product);
+                        }
+                    }
+
+                    if (newlist.size() == 0){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("NOT FOUND!");
+                        alert.setContentText("Product does not exist");
+                        alert.show();
+                    }else {
+                        products_TableView.setItems(newlist);
+                    }
+                }
+            }
+        } else{
+            products_TableView.setItems(Inventory.getAllProduct());
+        }
+
+    }
+
+    /**
+     * exits the program with normal status code
+     */
+    public void Main_Form_ExitButton_Clicked(ActionEvent actionEvent) {
+        System.exit(0);
     }
 }

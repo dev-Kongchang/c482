@@ -88,18 +88,45 @@ public class ModifyProduct_Controller implements Initializable {
     // This is the Observable List that will hold our associated parts
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
+    @FXML
+    private TextField modifyProduct_Search_TextField;
+
+    // This is the constructed selectedProduct from the Main form
+    private Product selectedProduct;
+
 
     /**
      *  Let's initialize all the available parts into the parts section of the form.
-     *  We can do this by grabbing all the available parts in the inventory and
+     *  We can do this by grabbing all the available parts in the inventory
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initialize_tables();
-
     }
 
+    /**
+     *  This is the setter from the selected product from the main
+     *  form. It will update the textfield with the selected product
+     */
+    public void setSelectedProduct(Product product){
+        selectedProduct = product;
 
+        modifyProduct_ID_TextField.setText(String.valueOf(selectedProduct.getId()));
+        modifyProduct_ID_TextField.setDisable(true);
+        modifyProduct_Name_TextField.setText(selectedProduct.getName());
+        modifyProduct_Inv_TextField.setText(String.valueOf(selectedProduct.getStock()));
+        modifyProduct_Price_TextField.setText(Double.toString(selectedProduct.getPrice()));
+        modifyProduct_Min_TextField.setText(String.valueOf(selectedProduct.getMin()));
+        modifyProduct_Max_TextField.setText(String.valueOf(selectedProduct.getMax()));
+
+        associatedParts = selectedProduct.getAllAssociatedParts();
+        modifyProduct_AssociatedParts_TableView.setItems(associatedParts);
+        modifyProduct_AssociatedColumn_ID.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        modifyProduct_AssociatedColumn_Name.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        modifyProduct_AssociatedColumn_Inventory.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
+        modifyProduct_AssociatedColumn_PriceCost.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+
+    }
 
     /**
      * This is what loads the tableview and the asssociated parts tableview when the form starts
@@ -112,11 +139,6 @@ public class ModifyProduct_Controller implements Initializable {
         modifyProduct_AllPartsColumn_Inventory.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
         modifyProduct_AllPartsColumn_PriceCost.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
 
-        modifyProduct_AssociatedParts_TableView.setItems(associatedParts);
-        modifyProduct_AssociatedColumn_ID.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
-        modifyProduct_AssociatedColumn_Name.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
-        modifyProduct_AssociatedColumn_Inventory.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
-        modifyProduct_AssociatedColumn_PriceCost.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
     }
 
     /**
@@ -161,7 +183,22 @@ public class ModifyProduct_Controller implements Initializable {
         }
     }
 
-    public void modifyProduct_SaveButton_Clicked(ActionEvent actionEvent) {
+
+    /**
+     *  This module here is the save button functionality.
+     *  We'll first lay out the module in the following steps.
+     *  1.) Use the try/except handle exceptions
+     *      This method will allow catching issues, in this case
+     *      keeping the text field free from bad inputs
+     *  2.) We'll check the text from each textfield the user inputted
+     *  3.)  Update the Object in the Inventory
+     *  Logical Runtime: The index of the product was off by 1 since the id is
+     *                   representative of the actual index.
+     *
+     *  Fix: used a variable placeholder to minus 1 index so that the correct index can be
+     *  used when updating the object in the Inventory
+     */
+    public void modifyProduct_Save_Button_Clicked(ActionEvent actionEvent) {
         modifyProduct_ID_TextField.setDisable(true);
         try{
             if(check_for_errors() == true){return;}
@@ -171,14 +208,17 @@ public class ModifyProduct_Controller implements Initializable {
             int inv = checkInv(modifyProduct_Inv_TextField.getText());
             int min = checkMin(modifyProduct_Min_TextField.getText());
             int max = checkMax(modifyProduct_Max_TextField.getText());
+            int id = Integer.parseInt(modifyProduct_ID_TextField.getText());
 
-            Product newProduct = new Product(get_next_id(), Name, price, inv, min, max);
+            Product newProduct = new Product(id, Name, price, inv, min, max);
 
             for (Part part : associatedParts){
                 newProduct.addAssociatedPart(part);
             }
 
-            Inventory.addProduct(newProduct);
+            int place = id - 1;
+
+            Inventory.updateProduct(place, newProduct);
 
             System.out.println("modifyProducts Save Button Clicked!");
 
@@ -198,7 +238,10 @@ public class ModifyProduct_Controller implements Initializable {
         }
     }
 
-    public void modifyProduct_CancelButton_Clicked(ActionEvent actionEvent) throws IOException {
+    /**
+     *  takes us back to the main form.
+     */
+    public void modifyProduct_Cancel_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("modifyProducts Cancel Button Clicked!");
 
         Parent root = FXMLLoader.load(main.class.getResource("Main_Form.fxml"));
@@ -276,9 +319,9 @@ public class ModifyProduct_Controller implements Initializable {
      *  Simply checking if Price/Cost is in number format, if so return the value back
      *  or throw an error
      */
-    public float checkPrice(String what){
+    public double checkPrice(String what){
         try {
-            return Float.parseFloat(what);
+            return Double.parseDouble(what);
         } catch (NumberFormatException n){
             throw new NumberFormatException("Price has to be a Integer that is greater than or equal to 0!");
         }
@@ -296,11 +339,46 @@ public class ModifyProduct_Controller implements Initializable {
         }
     }
 
-    public int get_next_id(){
-        int id = 1;
-        for(int i = 0; i < Inventory.getAllProduct().size(); i++){
-            id ++;
+    /**
+     * This checks for user input in the search field and populates the table accordingly
+     * if users inputs integers when we try one, if string, we try the other way
+     * also runs for loop to check each product if they contain the given character or string
+     * Future Enhancement: If this module can be broken down to one function, it would allow for more flexibility
+     */
+    public void modifyProduct_Search_TextField_onAction(ActionEvent actionEvent) {
+        String userSearch = modifyProduct_Search_TextField.getText();
+        if (!userSearch.isBlank()){
+            try {
+                Part givenpart = Inventory.lookupPart(Integer.parseInt(userSearch));
+                if (givenpart != null) {
+                    modifyProduct_AllParts_TableView.getSelectionModel().select(givenpart);
+                } else if (givenpart == null){
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e){
+                ObservableList<Part> checklist = Inventory.getAllParts();
+                ObservableList<Part> newlist = FXCollections.observableArrayList();
+                Part part;
+                if(checklist.size() > 0){
+                    for (int i = 0; i < checklist.size(); i ++){
+                        part = checklist.get(i);
+                        if (part.getName().toLowerCase().contains(userSearch.toLowerCase())){
+                            newlist.add(part);
+                        }
+                    }
+
+                    if (newlist.size() == 0){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("NOT FOUND!");
+                        alert.setContentText("Item does not exist");
+                        alert.show();
+                    } else {
+                        modifyProduct_AllParts_TableView.setItems(newlist);
+                    }
+                }
+            }
+        } else{
+            modifyProduct_AllParts_TableView.setItems(Inventory.getAllParts());
         }
-        return id;
     }
 }

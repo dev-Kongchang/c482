@@ -23,7 +23,7 @@
             <TextField fx:id="addProduct_Inv_TextField" layoutX="112.0" layoutY="227.0" />
             <TextField fx:id="addProduct_Price_TextField" layoutX="112.0" layoutY="274.0" />
             <TextField fx:id="addProduct_Max_TextField" layoutX="112.0" layoutY="324.0" />
-            <TextField fx:id="addProduct_Search_TextField" layoutX="888.0" layoutY="41.0" promptText="Search by model.Part ID or Name" />
+            <TextField fx:id="addProduct_Search_TextField" layoutX="888.0" layoutY="41.0" onAction="#addProduct_Search_TextField_onAction" promptText="Search by Part ID or Name" />
             <Label fx:id="addProduct_Min_Label" layoutX="291.0" layoutY="328.0" text="Min" />
             <TextField fx:id="addProduct_Min_TextField" layoutX="334.0" layoutY="325.0" />
             <TableView fx:id="addProduct_AllParts_TableView" layoutX="639.0" layoutY="74.0" prefHeight="226.0" prefWidth="438.0">

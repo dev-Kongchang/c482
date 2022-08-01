@@ -13,7 +13,10 @@ import java.io.IOException;
 
 public class main extends Application {
 
-
+    /**
+     *  We set some test data that will be added to the Inventory object.
+     *  This allows us to load the data to start using when the main application is launched
+     */
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -24,8 +27,8 @@ public class main extends Application {
         Inventory.addPart(Wheel);
         Inventory.addPart(Seat);
         
-        Product Giant_Bike = new Product(1, "Giant Bike", 299.99, 5, 1, 999);
-        Product Tricycle = new Product(2, "Tricycle", 99.99, 3, 1, 999);
+        Product Giant_Bike = new Product(1, "Giant Bike", 300, 5, 1, 999);
+        Product Tricycle = new Product(2, "Tricycle", 99, 3, 1, 999);
         Inventory.addProduct(Giant_Bike);
         Inventory.addProduct(Tricycle);
 
@@ -37,13 +40,10 @@ public class main extends Application {
         stage.show();
     }
 
-
-
     /**
      * We'll Load products then parts before launching the application
      */
     public static void main(String[] args) {
-
         launch();
     }
 }

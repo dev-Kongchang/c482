@@ -3,12 +3,8 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/** Author: Kong Chang Course: C482
- *  to make commenting easier, I am going to implement if statements to
- *  check if either allParts or allProducts is empty or the part already
- *  exists so that way it's
- *  easier to know what to look for when doing error checking or
- *  unit testing
+/**
+ * Author: Kong Chang     Course: C482
  */
 
 public class Inventory {

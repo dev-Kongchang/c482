@@ -87,6 +87,9 @@ public class AddProduct_Controller implements Initializable {
     @FXML
     private  TextField addProduct_Min_TextField;
 
+    @FXML
+    private TextField addProduct_Search_TextField;
+
     // This is the Observable List that will hold our associated parts
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
@@ -97,8 +100,12 @@ public class AddProduct_Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initialize_tables();
+        ObservableList<Product> newlist = Inventory.getAllProduct();
+        addProduct_ID_TextField.setDisable(true);
+        int newid = newlist.size() + 1;
+        addProduct_ID_TextField.setText(String.valueOf(newid));
 
+        initialize_tables();
     }
 
     /**
@@ -276,9 +283,9 @@ public class AddProduct_Controller implements Initializable {
      *  Simply checking if Price/Cost is in number format, if so return the value back
      *  or throw an error
      */
-    public float checkPrice(String what){
+    public double checkPrice(String what){
         try {
-            return Float.parseFloat(what);
+            return Double.parseDouble(what);
         } catch (NumberFormatException n){
             throw new NumberFormatException("Price has to be a Integer that is greater than or equal to 0!");
         }
@@ -296,6 +303,10 @@ public class AddProduct_Controller implements Initializable {
         }
     }
 
+    /**
+     *  We can simply check the size of the total products within the Inventory
+     *  Return the id when finished. if none, id will default to 1.
+     */
     public int get_next_id(){
         int id = 1;
         for(int i = 0; i < Inventory.getAllProduct().size(); i++){
@@ -304,4 +315,46 @@ public class AddProduct_Controller implements Initializable {
         return id;
     }
 
+    /**
+     * This checks for user input in the search field and populates the table accordingly
+     * if users inputs integers when we try one, if string, we try the other way
+     * also runs for loop to check each product if they contain the given character or string
+     * Future Enhancement: If this module can be broken down to one function, it would allow for more flexibility
+     */
+    public void addProduct_Search_TextField_onAction(ActionEvent actionEvent) {
+        String userSearch = addProduct_Search_TextField.getText();
+        if (!userSearch.isBlank()){
+            try {
+                Part givenpart = Inventory.lookupPart(Integer.parseInt(userSearch));
+                if (givenpart != null) {
+                    addProduct_AllParts_TableView.getSelectionModel().select(givenpart);
+                } else if (givenpart == null){
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e){
+                ObservableList<Part> checklist = Inventory.getAllParts();
+                ObservableList<Part> newlist = FXCollections.observableArrayList();
+                Part part;
+                if(checklist.size() > 0){
+                    for (int i = 0; i < checklist.size(); i ++){
+                        part = checklist.get(i);
+                        if (part.getName().toLowerCase().contains(userSearch.toLowerCase())){
+                            newlist.add(part);
+                        }
+                    }
+
+                    if (newlist.size() == 0){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("NOT FOUND!");
+                        alert.setContentText("Item does not exist");
+                        alert.show();
+                    } else {
+                        addProduct_AllParts_TableView.setItems(newlist);
+                    }
+                }
+            }
+        } else{
+            addProduct_AllParts_TableView.setItems(Inventory.getAllParts());
+        }
+    }
 }
