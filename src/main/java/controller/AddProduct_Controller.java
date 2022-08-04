@@ -217,10 +217,10 @@ public class AddProduct_Controller implements Initializable {
         stage.show();
     }
 
-    /**
+    /** RUNTIME ERROR
      * Checks for error within logical requirements of each textfield,
      * if any, generates a combined message to the user about the error
-     *   Logical RunTime: Was error.concat(message).
+     * RUNTIME ERROR Was error.concat(message).
      *          The error message string was empty every time.
      *          fix: decided to use variable addition to add on the
      *          string. (error = error + errorMessage)
@@ -315,7 +315,7 @@ public class AddProduct_Controller implements Initializable {
         return id;
     }
 
-    /**
+    /** FUTURE ENHANCEMENT
      * This checks for user input in the search field and populates the table accordingly
      * if users inputs integers when we try one, if string, we try the other way
      * also runs for loop to check each product if they contain the given character or string

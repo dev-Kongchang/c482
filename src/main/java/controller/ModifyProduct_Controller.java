@@ -184,7 +184,7 @@ public class ModifyProduct_Controller implements Initializable {
     }
 
 
-    /**
+    /** RUNTIME ERROR
      *  This module here is the save button functionality.
      *  We'll first lay out the module in the following steps.
      *  1.) Use the try/except handle exceptions
@@ -339,7 +339,7 @@ public class ModifyProduct_Controller implements Initializable {
         }
     }
 
-    /**
+    /** FUTURE ENHANCEMENT
      * This checks for user input in the search field and populates the table accordingly
      * if users inputs integers when we try one, if string, we try the other way
      * also runs for loop to check each product if they contain the given character or string

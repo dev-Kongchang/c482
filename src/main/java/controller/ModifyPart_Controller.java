@@ -204,7 +204,7 @@ public class ModifyPart_Controller implements Initializable {
         stage.show();
     }
 
-    /**
+    /** RUNTIME ERROR
      * Checks for error within logical requirements of each textfield,
      * if any, generates a combined message to the user about the error
      *   Logical RunTime: Was error.concat(message).

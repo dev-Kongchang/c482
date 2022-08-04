@@ -161,7 +161,7 @@ public class AddPart_Controller implements Initializable {
     /**
      * Checks for error within logical requirements of each textfield,
      * if any, generates a combined message to the user about the error
-     *   Logical RunTime: Was error.concat(message).
+     *RUNTIME ERROR : Was error.concat(message).
      *          The error message string was empty every time.
      *          fix: decided to use variable addition to add on the
      *          string. (error = error + errorMessage)

@@ -84,8 +84,6 @@ public class Main_Controller implements Initializable {
         System.out.println("Started Main Form");
         System.out.println("Populating TableView with Test Data...");
         initialize_tables();
-
-
     }
 
     /**
@@ -133,26 +131,27 @@ public class Main_Controller implements Initializable {
      */
     public void Parts_Modify_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("Parts Modify Button Clicked!");
-        Part selectedPart = parts_TableView.getSelectionModel().getSelectedItem();
-        if(selectedPart == null){
+
+        try {
+            Part selectedPart = parts_TableView.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(main.class.getResource("ModifyPart_Form.fxml"));
+            Parent root = loader.load();
+            ModifyPart_Controller control = loader.getController();
+            control.setSelectedPart(selectedPart);
+
+            Stage stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+
+            Scene scene = new Scene(root, 540, 623);
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (NullPointerException e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("You did not select a part, Please Try again");
             System.out.println("User did not select a part to modify!");
             alert.show();
         }
-
-        FXMLLoader loader = new FXMLLoader(main.class.getResource("ModifyPart_Form.fxml"));
-        Parent root = loader.load();
-        ModifyPart_Controller control = loader.getController();
-        control.setSelectedPart(selectedPart);
-
-        Stage stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-
-        Scene scene = new Scene(root, 540, 623);
-
-        stage.setScene(scene);
-        stage.show();
     }
 
     /**
@@ -161,28 +160,29 @@ public class Main_Controller implements Initializable {
      */
     public void parts_Delete_Button_Clicked(ActionEvent actionEvent) {
         System.out.println("Parts Delete Button Clicked!");
-        Part selectedPart = parts_TableView.getSelectionModel().getSelectedItem();
-        if(selectedPart == null){
+        try {
+            Part selectedPart = parts_TableView.getSelectionModel().getSelectedItem();
+
+            String name = selectedPart.getName();
+            String id = String.valueOf(selectedPart.getId());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Remove");
+            alert.setContentText("Are you sure you want to delete the following:\nProduct: " + name + "\nID: " + id);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.CANCEL){
+                System.out.println("User clicked Cancel!");
+                return;
+            } else if (result.get() == ButtonType.OK){
+                Inventory.deletePart(selectedPart);
+            }
+        } catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("You did not select a Part, Please Try again");
             System.out.println("User did not select a Part to Delete!");
             alert.show();
-        }
 
-        String name = selectedPart.getName();
-        String id = String.valueOf(selectedPart.getId());
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Remove");
-        alert.setContentText("Are you sure you want to delete the following:\nProduct: " + name + "\nID: " + id);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.CANCEL){
-            System.out.println("User clicked Cancel!");
-            return;
-        } else if (result.get() == ButtonType.OK){
-            Inventory.deletePart(selectedPart);
         }
-
     }
 
     /**
@@ -209,26 +209,29 @@ public class Main_Controller implements Initializable {
      */
     public void products_Modify_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("Products Add Button Clicked!");
-        Product selectedProduct = products_TableView.getSelectionModel().getSelectedItem();
-        if(selectedProduct == null){
+        try {
+            Product selectedProduct = products_TableView.getSelectionModel().getSelectedItem();
+
+            FXMLLoader loader = new FXMLLoader(main.class.getResource("ModifyProduct_Form.fxml"));
+            Parent root = loader.load();
+            ModifyProduct_Controller control = loader.getController();
+            control.setSelectedProduct(selectedProduct);
+
+            Stage stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+
+            Scene scene = new Scene(root,  1182, 744);
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (NullPointerException e) {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("You did not select a Product, Please Try again");
             System.out.println("User did not select a Product to modify!");
             alert.show();
+
         }
-
-        FXMLLoader loader = new FXMLLoader(main.class.getResource("ModifyProduct_Form.fxml"));
-        Parent root = loader.load();
-        ModifyProduct_Controller control = loader.getController();
-        control.setSelectedProduct(selectedProduct);
-
-        Stage stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-
-        Scene scene = new Scene(root,  1182, 744);
-
-        stage.setScene(scene);
-        stage.show();
     }
 
     /**
@@ -313,7 +316,7 @@ public class Main_Controller implements Initializable {
         }
     }
 
-    /**
+    /** FUTURE ENHANCEMENT
      * This checks for user input in the search field and populates the table accordingly
      * if users inputs integers when we try one, if string, we try the other way
      * also runs for loop to check each product if they contain the given character or string
