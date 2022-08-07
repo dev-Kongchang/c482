@@ -14,6 +14,8 @@ import java.io.IOException;
 public class main extends Application {
 
     /**
+     *  JavaDoc Folder is located under the src folder. The logic runtime error and future enhancement, and is located in the modify product controller.
+     *
      *  We set some test data that will be added to the Inventory object.
      *  This allows us to load the data to start using when the main application is launched
      */

@@ -128,7 +128,13 @@ public class ModifyPart_Controller implements Initializable {
     }
 
 
-    /**
+    /** RUNTIME ERROR:
+     *  Logical Runtime: Using selectedPart.getId() as the index kept giving me
+     *                   the wrong placement, therefore updating the part one index ahead
+     *  Fix: used a variable placeholder to minus 1 index so that the correct index can be
+     *       used when updating the object in the Inventory
+     *
+     *
      *  This module here is the save button functionality.
      *  We'll first lay out the module in the following steps.
      *  1.) Use the try/except handle exceptions
@@ -138,10 +144,7 @@ public class ModifyPart_Controller implements Initializable {
      *  3.) We must know which radio button was selected, so we can
      *      update with the correct object information
      *  4.) Update the Object in the Inventory
-     *  Logical Runtime: Using selectedPart.getId() as the index kept giving me
-     *                   the wrong placement, therefore updating the part one index ahead
-     *  Fix: used a variable placeholder to minus 1 index so that the correct index can be
-     *  used when updating the object in the Inventory
+     *
      */
     public void modifyPart_Save_Button_Clicked(ActionEvent actionEvent) throws IOException {
 
@@ -205,12 +208,15 @@ public class ModifyPart_Controller implements Initializable {
     }
 
     /** RUNTIME ERROR
-     * Checks for error within logical requirements of each textfield,
-     * if any, generates a combined message to the user about the error
-     *   Logical RunTime: Was error.concat(message).
+     *
+     * Logical RunTime: Was error.concat(message).
      *          The error message string was empty every time.
      *          fix: decided to use variable addition to add on the
      *          string. (error = error + errorMessage)
+     *
+     * Checks for error within logical requirements of each textfield,
+     * if any, generates a combined message to the user about the error
+     *
      */
 
     public boolean check_for_error(){

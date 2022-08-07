@@ -240,8 +240,32 @@ public class Main_Controller implements Initializable {
      */
     public void products_Delete_Button_Clicked(ActionEvent actionEvent) {
         System.out.println("Products Add Button Clicked!");
-        Product selectedProduct = products_TableView.getSelectionModel().getSelectedItem();
-        if(selectedProduct == null){
+        try {
+            Product selectedProduct = products_TableView.getSelectionModel().getSelectedItem();
+
+            if(selectedProduct.getAllAssociatedParts().size() == 0){
+                String name = selectedProduct.getName();
+                String id = String.valueOf(selectedProduct.getId());
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Remove");
+                alert.setContentText("Are you sure you want to delete the following:/nProduct: " + name + "\nID: " + id);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.CANCEL){
+                    System.out.println("User clicked Cancel!");
+                    return;
+                } else if (result.get() == ButtonType.OK){
+                    Inventory.deleteProduct(selectedProduct);
+                }
+
+            } else if (selectedProduct.getAllAssociatedParts().size() > 0){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("This Product has Parts\nIf you want to delete it.\nPlease delete the parts first!");
+                System.out.println("User did not parts to the Product!");
+                alert.show();
+            }
+
+        } catch(NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("You did not select a Product, Please Try again");
@@ -249,27 +273,7 @@ public class Main_Controller implements Initializable {
             alert.show();
         }
 
-        if(selectedProduct.getAllAssociatedParts().size() == 0){
-            String name = selectedProduct.getName();
-            String id = String.valueOf(selectedProduct.getId());
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remove");
-            alert.setContentText("Are you sure you want to delete the following:/nProduct: " + name + "\nID: " + id);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.CANCEL){
-                System.out.println("User clicked Cancel!");
-                return;
-            } else if (result.get() == ButtonType.OK){
-                Inventory.deleteProduct(selectedProduct);
-            }
 
-        } else if (selectedProduct.getAllAssociatedParts().size() > 0){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("This Product has Parts\nIf you want to delete it.\nPlease delete the parts first!");
-            System.out.println("User did not parts to the Product!");
-            alert.show();
-        }
 
     }
 

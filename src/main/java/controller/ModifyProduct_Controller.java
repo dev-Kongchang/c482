@@ -184,7 +184,13 @@ public class ModifyProduct_Controller implements Initializable {
     }
 
 
-    /** RUNTIME ERROR
+    /** RUNTIME ERROR:
+     *  Logical Runtime: The index of the product was off by 1 since the id is
+     *                   representative of the actual index.
+     *
+     *  Fix: used a variable placeholder to minus 1 index so that the correct index can be
+     *  used when updating the object in the Inventory
+     *
      *  This module here is the save button functionality.
      *  We'll first lay out the module in the following steps.
      *  1.) Use the try/except handle exceptions
@@ -192,11 +198,7 @@ public class ModifyProduct_Controller implements Initializable {
      *      keeping the text field free from bad inputs
      *  2.) We'll check the text from each textfield the user inputted
      *  3.)  Update the Object in the Inventory
-     *  Logical Runtime: The index of the product was off by 1 since the id is
-     *                   representative of the actual index.
-     *
-     *  Fix: used a variable placeholder to minus 1 index so that the correct index can be
-     *  used when updating the object in the Inventory
+
      */
     public void modifyProduct_Save_Button_Clicked(ActionEvent actionEvent) {
         modifyProduct_ID_TextField.setDisable(true);
@@ -239,7 +241,8 @@ public class ModifyProduct_Controller implements Initializable {
     }
 
     /**
-     *  takes us back to the main form.
+     *  takes us back to the main form by setting up the object fo the fxmloader which directs
+     *  to the main form
      */
     public void modifyProduct_Cancel_Button_Clicked(ActionEvent actionEvent) throws IOException {
         System.out.println("modifyProducts Cancel Button Clicked!");
@@ -340,10 +343,13 @@ public class ModifyProduct_Controller implements Initializable {
     }
 
     /** FUTURE ENHANCEMENT
+     *
+     * Future Enhancement: If this module can be broken down to one function, it would allow for more flexibility
+     *                     because the search functionality is similar throughout the application.
+     *
      * This checks for user input in the search field and populates the table accordingly
      * if users inputs integers when we try one, if string, we try the other way
      * also runs for loop to check each product if they contain the given character or string
-     * Future Enhancement: If this module can be broken down to one function, it would allow for more flexibility
      */
     public void modifyProduct_Search_TextField_onAction(ActionEvent actionEvent) {
         String userSearch = modifyProduct_Search_TextField.getText();

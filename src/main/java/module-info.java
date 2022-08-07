@@ -10,7 +10,6 @@ module student.softwarei {
     exports student.softwarei;
 
     opens controller to javafx.fxml;
-
-
+    exports controller;
 
 }
